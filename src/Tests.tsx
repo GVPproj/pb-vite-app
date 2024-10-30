@@ -9,10 +9,9 @@ const Tests = () => {
 
   const getPosts = async () => {
     const pb = getPb()
-    const items = await pb.collection('tests').getFullList({
+    const items = await pb.collection('posts').getFullList({
       sort: '-created',
     })
-    // console.log(records)
     setRecords(items)
   }
 
@@ -20,9 +19,9 @@ const Tests = () => {
     if (!text) return alert('Please enter some text')
     const pb = getPb()
     const data = {
-      testText: text,
+      richText: `<h1>${text}</h1>`,
     }
-    await pb.collection('tests').create(data)
+    await pb.collection('posts').create(data)
     setIsUpdating(true)
     setText('')
   }
@@ -30,9 +29,9 @@ const Tests = () => {
   const updatePost = async (index: number) => {
     const pb = getPb()
     const data = {
-      testText: 'testing 123' + Math.random().toString(),
+      richText: '<h1>testing 123</h1>' + `<p>${Math.random().toString()}</p>`,
     }
-    await pb.collection('tests').update(records[index].id, data)
+    await pb.collection('posts').update(records[index].id, data)
     setIsUpdating(true)
   }
 
@@ -69,7 +68,7 @@ const Tests = () => {
                 marginBottom: '1rem',
               }}
             >
-              {record.testText}
+              {record.richText}
               <button onClick={() => deletePost(record.id)}>Delete</button>
               <button onClick={() => updatePost(index)}>Update</button>
             </li>
