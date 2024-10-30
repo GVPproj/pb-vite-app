@@ -37,7 +37,7 @@ const Tests = () => {
 
   const deletePost = async (id: string) => {
     const pb = getPb()
-    await pb.collection('tests').delete(id)
+    await pb.collection('posts').delete(id)
     setIsUpdating(true)
   }
 
@@ -56,28 +56,25 @@ const Tests = () => {
         gap: '2rem',
       }}
     >
-      <ul>
-        {records.map((record, index) => {
-          return (
-            <li
+      {records.map((record, index) => {
+        return (
+          <>
+            <div
+              className="bg-blue-500 text-white p-4  prose"
               key={record.id}
-              style={{
-                display: 'flex',
-                alignItems: 'flex-start',
-                gap: '2rem',
-                marginBottom: '1rem',
-              }}
-            >
-              {record.richText}
-              <button onClick={() => deletePost(record.id)}>Delete</button>
-              <button onClick={() => updatePost(index)}>Update</button>
-            </li>
-          )
-        })}
-      </ul>
+              dangerouslySetInnerHTML={{ __html: record.richText }}
+            ></div>
+            <button onClick={() => deletePost(record.id)}>Delete</button>
+            <button onClick={() => updatePost(index)}>Update</button>
+          </>
+        )
+      })}
       <button onClick={createPost}>New</button>
       <input
         type="text"
+        width={300}
+        placeholder="Enter some text"
+        className="bg-indigo-500 text-white p-4 rounded-md"
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
